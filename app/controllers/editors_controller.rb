@@ -1,4 +1,8 @@
 class EditorsController < ApplicationController
+  
+  before_filter :authenticate_user!
+  before_filter :check_admin
+  
   # GET /editors
   # GET /editors.json
   def index
@@ -80,5 +84,11 @@ class EditorsController < ApplicationController
       format.html { redirect_to editors_url }
       format.json { head :no_content }
     end
+  end
+  
+  protected
+    
+  def check_admin
+    redirect_to :root if !current_user.admin?
   end
 end
